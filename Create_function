@@ -1,0 +1,16 @@
+CREATE DEFINER=`root`@`localhost` FUNCTION `db_practica`.`calculate_work_hours`(p_clock_in TIMESTAMP,
+    p_clock_out TIMESTAMP
+) RETURNS decimal(10,2)
+    DETERMINISTIC
+BEGIN
+    DECLARE diff_seconds INT;
+    DECLARE result DECIMAL(10,2);
+    
+    -- Вычисляем разницу в секундах (аналог EXTRACT(EPOCH FROM ...))
+    SET diff_seconds = TIMESTAMPDIFF(SECOND, p_clock_in, p_clock_out);
+    
+    -- Переводим в часы и округляем
+    SET result = ROUND(diff_seconds / 3600, 2);
+    
+    RETURN result;
+END
